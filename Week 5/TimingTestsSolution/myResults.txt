@@ -1,0 +1,68 @@
+MAP:
+Run||Time(nano S)
+
+Large Data-5,000,000
+1	2439
+2	2315
+3	2372
+
+Standard Data-500,000
+1	1893
+2	1707
+3	1649
+
+Small Data- 50,000
+1	1152
+2	1254
+3	1306
+
+Smallest Data= 5,000
+1	1025
+2	1058
+3	961
+
+unorderedMap:
+
+Large Data-5,000,000
+1	515
+2	687
+3	502
+
+Standard Data-500,000
+1	562
+2	551
+3	479
+
+Small Data- 50,000
+1	418
+2	545
+3	420
+
+Smallest Data= 5,000
+1	671
+2	360
+3	459
+
+MyDict:
+
+Large Data-5,000,000
+1	
+2	
+3	
+
+Standard Data-500,000
+1	2129
+2	1755
+3	1801
+
+Small Data- 50,000
+1	1281
+2	899
+3	891
+	
+
+Smallest Data= 5,000
+1	573
+2	474
+3	457
+
