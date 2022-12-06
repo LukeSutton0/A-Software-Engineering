@@ -18,21 +18,20 @@ private:
 	void removeWorkerNoLeaf(Node* &currentNode, Node* &parentNode);
 	void deepDeleteWorker(Node*);
 	void deepCopyWorker(Node*, Node*, const Dictionary& dictToCopy);
-	void rotateLeft(Node*& applyRotationpoint, Node*& parentNode);
-	void rotateRight(Node*& applyRotationpoint,Node*&parentNode);
-	Node* rotateLookupWorker(int, Node*&,Node*&);
+	void rotateLeft(Node*& applyRotationpoint, Node*& parentNode);//Rotates the binary tree nodes left around the first node given
+	void rotateRight(Node*& applyRotationpoint,Node*&parentNode); //Rotates the binary tree nodes right around the first node given
 public:
 	Dictionary();
 	void insert(int key, std::string data); //insert
 	//int lookup(int key); //lookup iterating
-	std::string* lookup(int nodeToFind); //lookup rec
+	std::string* lookup(int nodeToFind); //lookup recursive
 	void displayEntries(); //display
-	void displayTree(); // display pre post in order
+	void displayTree(); // display, pre post in order
 	void remove(int nodeToDelete); //remove
 	~Dictionary();
 	Dictionary(const Dictionary& dictToCopy);
 	bool isLeaf(Node* n);
-	void rotateTesting(int keyOfNodeToTest,int rotateDirection);
+	void rotateTesting(int keyOfNodeToTest,std::string rotateDirection);
 	
 
 };

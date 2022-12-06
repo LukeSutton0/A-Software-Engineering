@@ -2,6 +2,7 @@
 #include <list>
 #include <vector>
 #include <stack>
+#include <cassert>
 
 
 
@@ -155,11 +156,11 @@ Dictionary::Node* Dictionary::lookupWorker(int applyRotationKey, Node*& currentN
     parentNode = currentNode;
     if (applyRotationKey < currentNode->key) {
         currentNode = currentNode->nodeLeft;
-        rotateLookupWorker(applyRotationKey, currentNode, parentNode);
+        lookupWorker(applyRotationKey, currentNode, parentNode);
     }
     else if (applyRotationKey > currentNode->key) {
         currentNode = currentNode->nodeRight;
-        rotateLookupWorker(applyRotationKey, currentNode, parentNode);
+        lookupWorker(applyRotationKey, currentNode, parentNode);
     }
 }
 
@@ -423,14 +424,15 @@ bool Dictionary::isLeaf(Node* nodeToCheck) {
     return(nodeToCheck == nullptr);
 }
 
-void Dictionary::rotateTesting(int applyRotationKey,int dir) {
+void Dictionary::rotateTesting(int applyRotationKey,std::string direction) {
     Node* currentNode = root;
     if (root == nullptr) {
         return;
     }
     Node* parentNode = NULL;
     currentNode,parentNode = lookupWorker(applyRotationKey, currentNode,parentNode); //find node
-    if (dir == 0) { //right
+    assert(!isLeaf(currentNode));
+    if (direction == "right") { //right
         rotateRight(currentNode, parentNode);
     }
     else { //left
@@ -445,38 +447,42 @@ void Dictionary::rotateTesting(int applyRotationKey,int dir) {
 
 
 void Dictionary::rotateRight(Node*& applyRotationpoint, Node*& parentNode) {
-    if (applyRotationpoint == root) {
-        return;
-    }
     if (applyRotationpoint->nodeLeft != nullptr) {
         Node* B = applyRotationpoint;
         Node* A = applyRotationpoint->nodeLeft;
         Node* beta = applyRotationpoint->nodeLeft->nodeRight;
 
-        if (parentNode->key > applyRotationpoint->key) {
-            parentNode->nodeLeft = A;
+        if (applyRotationpoint == root) {
+            root = A;
         }
         else {
-            parentNode->nodeRight = A;
+            if (parentNode->key > applyRotationpoint->key) {
+                parentNode->nodeLeft = A;
+            }
+            else {
+                parentNode->nodeRight = A;
+            }
         }
         B->nodeLeft = beta;
         A->nodeRight = B;
     }
 }
 void Dictionary::rotateLeft(Node*& applyRotationpoint, Node*& parentNode) {
-    if (applyRotationpoint == root) {
-        return;
-    }
     if (applyRotationpoint->nodeRight != nullptr) {
         Node* A = applyRotationpoint;
         Node* B = applyRotationpoint->nodeRight;
         Node* beta = applyRotationpoint->nodeRight->nodeLeft;
 
-        if (parentNode->key > applyRotationpoint->key) {
-            parentNode->nodeLeft = B;
+        if (applyRotationpoint == root) {
+            root = B;
         }
         else {
-            parentNode->nodeRight = B;
+            if (parentNode->key > applyRotationpoint->key) {
+                parentNode->nodeLeft = B;
+            }
+            else {
+                parentNode->nodeRight = B;
+            }
         }
         B->nodeLeft = A;
         A->nodeRight = beta;

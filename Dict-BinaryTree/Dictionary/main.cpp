@@ -42,11 +42,8 @@ int main()
     dict3.insert(8,"F");
     dict3.insert(110, "G");
     dict3.displayTree();
-    dict3.rotateTesting(9,0);
-    std::cout << "\n ~~~ \n first rotate = \n";
-    dict3.displayTree();
-    std::cout << "\n ~~~ 2nd rotate = \n";
-    dict3.rotateTesting(7, 1);
+    std::cout << "\n ~~~ rotate = \n";
+    dict3.rotateTesting(100, "left");
     dict3.displayTree();
 
     //dict2.displayTree();
