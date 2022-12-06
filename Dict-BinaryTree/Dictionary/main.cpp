@@ -41,32 +41,14 @@ int main()
     dict3.insert(10,"E");
     dict3.insert(8,"F");
     dict3.insert(110, "G");
-    dict3.displayTree();
-    std::cout << "\n ~~~ rotate = \n";
-    dict3.rotateTesting(100, "left");
-    dict3.displayTree();
+    //dict3.rotateTesting(100, "left");
+    //dict3.displayTree();
 
     //dict2.displayTree();
     Dictionary newDict(dict); //deep copy
+    Dictionary dictToMoveTo;
+    dictToMoveTo = dict3;
     dict2.remove(5);
     //dict2.displayTree();
-    //dict.displayTree();
     dict.remove(4);
-    dict.remove(9);
-    dict.remove(23);
-    dict.remove(37);
-    //dict.displayTree();
-
-    //dict.displayTree();
-    //dict.remove(1);
-    //dict.remove(37);
-    //dict.lookup(42);
-    //dict.displayEntries();
-    //dict.remove(4);
-    //dict.remove(37);
-    //dict.remove(1);
-    //dict.remove(22);
-    //dict.remove(0);
-    //dict.lookup(23);
-
 }

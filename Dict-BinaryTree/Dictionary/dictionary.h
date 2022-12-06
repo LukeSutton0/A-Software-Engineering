@@ -32,8 +32,7 @@ public:
 	Dictionary(const Dictionary& dictToCopy);
 	bool isLeaf(Node* n);
 	void rotateTesting(int keyOfNodeToTest,std::string rotateDirection);
-	
-
+	Dictionary& operator=(Dictionary&&);
 };
 
 

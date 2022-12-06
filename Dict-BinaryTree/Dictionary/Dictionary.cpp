@@ -402,7 +402,7 @@ void Dictionary::deepDeleteWorker(Node* currentNode) {
     delete currentNode;
 }
 
-Dictionary::Dictionary(const Dictionary& dictToCopy)
+Dictionary::Dictionary(const Dictionary& dictToCopy) //copy
 {
     //this->root = dictToCopy.root; //shallow copy
     root = new Node(dictToCopy.root->key, dictToCopy.root->data);
@@ -418,6 +418,11 @@ void Dictionary::deepCopyWorker(Node* constructedNode, Node* currentNode, const 
         deepCopyWorker(constructedNode->nodeRight, currentNode->nodeRight, dictToCopy);
     }
     //no children
+}
+
+Dictionary& Dictionary::operator=(Dictionary&& aDictionary)noexcept { //takes move parameter
+    if (this == &aDictionary) return *this;
+    // http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rc-move-assignment
 }
 
 bool Dictionary::isLeaf(Node* nodeToCheck) {
@@ -441,7 +446,6 @@ void Dictionary::rotateTesting(int applyRotationKey,std::string direction) {
     if (currentNode == nullptr) {
         return;
     }
-
 }
 
 
