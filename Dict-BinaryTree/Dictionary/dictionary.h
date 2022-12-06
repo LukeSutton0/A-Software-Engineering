@@ -12,6 +12,7 @@ private:
 	void displayEntriesWorker(Node*, int traversalType);
 	void displayTreeWorker(Node* currentNode, int indent);
 	Node* lookupWorker(int nodeToFind, Node* currentNode);
+	Node* lookupWorker(int nodeToRotateAround, Node*& currentNode, Node*& parentNode);
 	void insertWorker(int key, std::string data, Node* &currentNode);
 	void removeWorker(int nodeToDelete, Node* &currentNode, Node* &parentNode);
 	void removeWorkerNoLeaf(Node* &currentNode, Node* &parentNode);

@@ -145,6 +145,23 @@ Dictionary::Node* Dictionary::lookupWorker(int nodeToFind, Node* currentNode) {
         lookupWorker(nodeToFind, currentNode);
     }
 }
+Dictionary::Node* Dictionary::lookupWorker(int applyRotationKey, Node*& currentNode, Node*& parentNode) { //return parent aswell
+    if (currentNode == nullptr) { //notfound
+        return nullptr;
+    }
+    if (applyRotationKey == currentNode->key) { //found
+        return currentNode, parentNode;
+    }
+    parentNode = currentNode;
+    if (applyRotationKey < currentNode->key) {
+        currentNode = currentNode->nodeLeft;
+        rotateLookupWorker(applyRotationKey, currentNode, parentNode);
+    }
+    else if (applyRotationKey > currentNode->key) {
+        currentNode = currentNode->nodeRight;
+        rotateLookupWorker(applyRotationKey, currentNode, parentNode);
+    }
+}
 
 /*
 std::string*  Dictionary::lookup(int nodeToFind) {
@@ -412,7 +429,7 @@ void Dictionary::rotateTesting(int applyRotationKey,int dir) {
         return;
     }
     Node* parentNode = NULL;
-    currentNode,parentNode = rotateLookupWorker(applyRotationKey, currentNode,parentNode); //find node
+    currentNode,parentNode = lookupWorker(applyRotationKey, currentNode,parentNode); //find node
     if (dir == 0) { //right
         rotateRight(currentNode, parentNode);
     }
@@ -423,23 +440,6 @@ void Dictionary::rotateTesting(int applyRotationKey,int dir) {
         return;
     }
 
-}
-Dictionary::Node* Dictionary::rotateLookupWorker(int applyRotationKey, Node*& currentNode,Node*& parentNode) {
-    if (currentNode == nullptr) { //notfound
-        return nullptr;
-    }
-    if (applyRotationKey == currentNode->key) { //found
-        return currentNode,parentNode;
-    }
-    parentNode = currentNode;
-    if (applyRotationKey < currentNode->key) {
-        currentNode = currentNode->nodeLeft;
-        rotateLookupWorker(applyRotationKey, currentNode,parentNode);
-    }
-    else if (applyRotationKey > currentNode->key) {
-        currentNode = currentNode->nodeRight;
-        rotateLookupWorker(applyRotationKey, currentNode,parentNode);
-    }
 }
 
 
