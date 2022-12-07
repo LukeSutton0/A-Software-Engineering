@@ -29,10 +29,16 @@ public:
 	void displayTree(); // display, pre post in order
 	void remove(int nodeToDelete); //remove
 	~Dictionary();
-	Dictionary(const Dictionary& dictToCopy);
+
+	Dictionary(const Dictionary& dictToCopy); //copy
+
 	bool isLeaf(Node* n);
 	void rotateTesting(int keyOfNodeToTest,std::string rotateDirection);
-	Dictionary& operator=(Dictionary&&)noexcept;
+	Dictionary& operator=(Dictionary&&)noexcept; //move
+	Dictionary(Dictionary&&)noexcept; //move
+	void checkRoot();
+	Dictionary& operator=(const Dictionary& sourceDictionary); //copy
+	
 };
 
 

@@ -274,7 +274,6 @@ void Dictionary::remove(int nodeToDelete) {
     Node* currentNode = root;
     Node* parentNode = nullptr;
     if (root == nullptr) {
-        std::cout << "Tree is empty";
         return;
     }
     removeWorker(nodeToDelete, currentNode, parentNode);
@@ -420,14 +419,13 @@ void Dictionary::deepCopyWorker(Node* constructedNode, Node* currentNode, const 
     //no children
 }
 
-Dictionary& Dictionary::operator=(Dictionary&& aDictionary)noexcept { //takes move parameter
-    if (this == &aDictionary) return *this;
-    // http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rc-move-assignment
-    //s = std::move(aDictionary.s);
-}
-
 bool Dictionary::isLeaf(Node* nodeToCheck) {
     return(nodeToCheck == nullptr);
+}
+
+void Dictionary::checkRoot() {
+    std::cout << "\n Root location = "<< root <<" root key value = "<< root->key << "\n ";
+
 }
 
 void Dictionary::rotateTesting(int applyRotationKey,std::string direction) {
@@ -492,4 +490,29 @@ void Dictionary::rotateLeft(Node*& applyRotationpoint, Node*& parentNode) {
         B->nodeLeft = A;
         A->nodeRight = beta;
     }
+}
+
+Dictionary& Dictionary::operator=(Dictionary&& dictionaryToMove)noexcept { // move but doesnt overload for some reason
+    if (this == &dictionaryToMove) {
+        return *this;
+    }
+    deepDeleteWorker(this->root);
+    this->root = dictionaryToMove.root;
+    dictionaryToMove.root = nullptr;
+    return *this;
+}
+
+Dictionary::Dictionary(Dictionary&& dictionaryToMove)noexcept { //move
+    deepDeleteWorker(this->root);
+    this->root = dictionaryToMove.root;
+    dictionaryToMove.root = nullptr;
+}
+
+Dictionary& Dictionary::operator=(const Dictionary& sourceDictionary) { //deep copy
+    if (this == &sourceDictionary) {
+        return *this;
+    }
+    root = new Node(sourceDictionary.root->key, sourceDictionary.root->data);
+    deepCopyWorker(this->root,sourceDictionary.root,sourceDictionary);
+    return *this;
 }

@@ -45,13 +45,21 @@ int main()
     //dict3.displayTree();
 
     //dict2.displayTree();
-    Dictionary newDict(dict); //deep copy
+    //Dictionary newDict(dict); //deep copy
 
     Dictionary* dictPtr;
-    dictPtr = new Dictionary(std::move(dict));
-    dictPtr->displayTree();
+
+
+    dictPtr = new Dictionary(std::move(dict)); //move
     //dictToMoveTo = dict3;
-    dict2.remove(5);
+    //dictPtr->displayTree();
+    //dictPtr->checkRoot();
+    Dictionary dict4;
+    dict4 = dict2;
+    dict4.displayTree();
+    //dict.checkRoot();
+
+    //dict2.remove(5);
     //dict2.displayTree();
-    dict.remove(4);
+   // dict.remove(4);
 }
