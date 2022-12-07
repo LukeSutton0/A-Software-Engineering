@@ -46,8 +46,11 @@ int main()
 
     //dict2.displayTree();
     Dictionary newDict(dict); //deep copy
-    Dictionary dictToMoveTo;
-    dictToMoveTo = dict3;
+
+    Dictionary* dictPtr;
+    dictPtr = new Dictionary(std::move(dict));
+    dictPtr->displayTree();
+    //dictToMoveTo = dict3;
     dict2.remove(5);
     //dict2.displayTree();
     dict.remove(4);

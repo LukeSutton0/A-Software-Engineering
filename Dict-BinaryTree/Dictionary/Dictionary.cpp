@@ -423,6 +423,7 @@ void Dictionary::deepCopyWorker(Node* constructedNode, Node* currentNode, const 
 Dictionary& Dictionary::operator=(Dictionary&& aDictionary)noexcept { //takes move parameter
     if (this == &aDictionary) return *this;
     // http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rc-move-assignment
+    //s = std::move(aDictionary.s);
 }
 
 bool Dictionary::isLeaf(Node* nodeToCheck) {
