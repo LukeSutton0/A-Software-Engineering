@@ -20,6 +20,7 @@ private:
 	void deepCopyWorker(Node*, Node*, const Dictionary& dictToCopy);
 	void rotateLeft(Node*& applyRotationpoint, Node*& parentNode);//Rotates the binary tree nodes left around the first node given
 	void rotateRight(Node*& applyRotationpoint,Node*&parentNode); //Rotates the binary tree nodes right around the first node given
+
 public:
 	Dictionary();
 	void insert(int key, std::string data); //insert
@@ -29,9 +30,7 @@ public:
 	void displayTree(); // display, pre post in order
 	void remove(int nodeToDelete); //remove
 	~Dictionary();
-
 	Dictionary(const Dictionary& dictToCopy); //copy
-
 	bool isLeaf(Node* n);
 	void rotateTesting(int keyOfNodeToTest,std::string rotateDirection);
 	Dictionary& operator=(Dictionary&&)noexcept; //move

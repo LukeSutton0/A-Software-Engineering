@@ -19,33 +19,35 @@ struct Dictionary::Node
     Node* nodeLeft;
     Node* nodeRight;
 
-    ~Node(); //do i put desctructor here or below?
+    //~Node(); //do i put desctructor here or below?
 
     Node() //default constructor
     {
         data = "";
-        nodeLeft = NULL;
-        nodeRight = NULL;
+        nodeLeft = nullptr;
+        nodeRight = nullptr;
     }
 
     Node(int key, std::string data) { //constructor
         this->key = key;
         this->data = data;
-        this->nodeLeft = NULL;
-        this->nodeRight = NULL;
+        this->nodeLeft = nullptr;
+        this->nodeRight = nullptr;
     }
 };
+/*
 Dictionary::Node::~Node() { //node destructor
-    nodeLeft = NULL;
-    nodeRight = NULL;
+    delete nodeLeft;
+    delete nodeRight;
 }
+*/
+
 void Dictionary::insert(int key, std::string data) {
-    Node* rootNode = root;
     if (root == NULL) {
         root = new Node(key, data);
         return;
     }
-    insertWorker(key, data, rootNode);
+    insertWorker(key, data, root);
 }
 
 void Dictionary::insertWorker(int key, std::string data, Node* &currentNode) {
@@ -70,20 +72,6 @@ void Dictionary::insertWorker(int key, std::string data, Node* &currentNode) {
             currentNode->nodeRight = newNode;
         }
     }
-    /*
-    else if (key < currentNode->key && currentNode->nodeLeft != NULL) {
-        insertWorker(key, data, currentNode->nodeLeft);
-    }
-    else if (key > currentNode->key && currentNode->nodeRight != NULL) {
-        insertWorker(key, data, currentNode->nodeRight);
-    }
-    else if (key < currentNode->key && currentNode->nodeLeft == NULL) {
-        currentNode->nodeLeft = new Node(key, data);
-    }
-    else if (key > currentNode->key && currentNode->nodeRight == NULL) {
-        currentNode->nodeRight = new Node(key, data);
-    }
-    */
 }
 
 /*void Dictionary::insert(int key, std::string data) {
@@ -122,19 +110,18 @@ std::string* Dictionary::lookup(int nodeToFind) {
     if (root == nullptr) {
         return nullptr;
     }
-    currentNode = lookupWorker(nodeToFind, currentNode); //find node
+    currentNode = lookupWorker(nodeToFind, currentNode); //main lookup function
     if (currentNode == nullptr) {
         return nullptr;
     }
     std::string* ndPtr = &currentNode->data;
     return ndPtr; // what am i supposed to be returning
-
 }
-Dictionary::Node* Dictionary::lookupWorker(int nodeToFind, Node* currentNode) {
+Dictionary::Node* Dictionary::lookupWorker(int nodeToFind, Node* currentNode) { //overloaded lookup
     if (currentNode == nullptr) { //notfound
         return nullptr;
     }
-    if (nodeToFind == currentNode->key) { //found
+    if (currentNode->key == nodeToFind) { //found
         return currentNode;
     }
     if (nodeToFind < currentNode->key) {
@@ -146,6 +133,7 @@ Dictionary::Node* Dictionary::lookupWorker(int nodeToFind, Node* currentNode) {
         lookupWorker(nodeToFind, currentNode);
     }
 }
+
 Dictionary::Node* Dictionary::lookupWorker(int applyRotationKey, Node*& currentNode, Node*& parentNode) { //return parent aswell
     if (currentNode == nullptr) { //notfound
         return nullptr;
@@ -163,6 +151,7 @@ Dictionary::Node* Dictionary::lookupWorker(int applyRotationKey, Node*& currentN
         lookupWorker(applyRotationKey, currentNode, parentNode);
     }
 }
+
 
 /*
 std::string*  Dictionary::lookup(int nodeToFind) {
@@ -285,6 +274,8 @@ void Dictionary::removeWorker(int nodeToDelete, Node* &currentNode, Node* &paren
             //complicated removal has 2 leaves
             removeWorkerNoLeaf(currentNode, parentNode);
         }
+
+
         else if (nodeToDelete == root->key) {
             if (root->nodeLeft != nullptr) {
                 root = root->nodeLeft;
@@ -293,43 +284,37 @@ void Dictionary::removeWorker(int nodeToDelete, Node* &currentNode, Node* &paren
                 root = root->nodeRight;
             }
         }
-        /*
-        else if (nodeToDelete == root->key && root->nodeLeft != NULL) { //check this
-            root = root->nodeLeft;  //bad cant free memory?
-            delete currentNode;
-            currentNode = nullptr;
-        }
-        else if (nodeToDelete == root->key && root->nodeRight != NULL) {
-            root = root->nodeRight;
-            delete currentNode;
-            currentNode = nullptr;
-        }
-        */
+
 
         else if (currentNode->nodeLeft != NULL && parentNode->key > currentNode->key) { //has a left node
+            delete currentNode;
             parentNode->nodeLeft = currentNode->nodeLeft;
         }
         else if (currentNode->nodeRight != NULL && parentNode->key > currentNode->key) {//has a right node
+            delete currentNode;
             parentNode->nodeLeft = currentNode->nodeRight;
         }
         else if (currentNode->nodeLeft == NULL && parentNode->key < currentNode->key) {//has a left node
+            delete currentNode;
             parentNode->nodeRight = currentNode->nodeRight;
         }
         else if (currentNode->nodeRight == NULL && parentNode->key < currentNode->key) { //has a right node
+            delete currentNode;
             parentNode->nodeRight = currentNode->nodeRight;
         }
 
         else if (currentNode->nodeLeft == NULL && currentNode->nodeRight == NULL) {//has no child nodes - remove link
             if (parentNode->key > currentNode->key) {
-                parentNode->nodeLeft = NULL;
+                delete currentNode;
+                parentNode->nodeLeft = nullptr;
             }
             else{
-                parentNode->nodeRight = NULL;
+                delete currentNode;
+                parentNode->nodeRight = nullptr;
             }
         }
         else if (currentNode != nullptr) {
             delete currentNode; //deletes selected node
-            currentNode = nullptr;
         }
     }
     else{     //if not found right node to delete yet recursive
@@ -342,16 +327,6 @@ void Dictionary::removeWorker(int nodeToDelete, Node* &currentNode, Node* &paren
         }
         removeWorker(nodeToDelete, currentNode, parentNode);
     }
-    /*else if (nodeToDelete < currentNode->key) {
-        parentNode = currentNode;
-        currentNode = currentNode->nodeLeft;
-        removeWorker(nodeToDelete, currentNode, parentNode);
-    }
-    else if (nodeToDelete > currentNode->key) {
-        parentNode = currentNode;
-        currentNode = currentNode->nodeRight;
-        removeWorker(nodeToDelete, currentNode, parentNode);
-    }*/
 }
 
 void Dictionary::removeWorkerNoLeaf(Node* &currentNode, Node* &parentNode) {
@@ -386,12 +361,12 @@ void Dictionary::removeWorkerNoLeaf(Node* &currentNode, Node* &parentNode) {
     }
 }
 
+
 Dictionary::~Dictionary() {
     deepDeleteWorker(root);
     //make sure root memory is clear for next tree
-    root = nullptr;
-    displayTree();
 }
+
 void Dictionary::deepDeleteWorker(Node* currentNode) {
     if (currentNode == nullptr) {
         return;
@@ -399,12 +374,13 @@ void Dictionary::deepDeleteWorker(Node* currentNode) {
     deepDeleteWorker(currentNode->nodeLeft);
     deepDeleteWorker(currentNode->nodeRight);
     delete currentNode;
+    currentNode = nullptr;
 }
 
 Dictionary::Dictionary(const Dictionary& dictToCopy) //copy
 {
     //this->root = dictToCopy.root; //shallow copy
-    root = new Node(dictToCopy.root->key, dictToCopy.root->data);
+    this->root = new Node(dictToCopy.root->key, dictToCopy.root->data);
     deepCopyWorker(root, dictToCopy.root, dictToCopy);
 }
 void Dictionary::deepCopyWorker(Node* constructedNode, Node* currentNode, const Dictionary& dictToCopy) {
@@ -446,8 +422,6 @@ void Dictionary::rotateTesting(int applyRotationKey,std::string direction) {
         return;
     }
 }
-
-
 
 void Dictionary::rotateRight(Node*& applyRotationpoint, Node*& parentNode) {
     if (applyRotationpoint->nodeLeft != nullptr) {

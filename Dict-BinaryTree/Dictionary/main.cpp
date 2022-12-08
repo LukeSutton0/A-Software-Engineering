@@ -24,6 +24,7 @@ int main()
     dict.insert(1, "William");
     dict.insert(26, "Charles");
 
+    //dict.displayEntries();
 
     dict2.insert(5, "A");
     dict2.insert(3, "B");
@@ -41,9 +42,11 @@ int main()
     dict3.insert(10,"E");
     dict3.insert(8,"F");
     dict3.insert(110, "G");
-    //dict3.rotateTesting(100, "left");
-    //dict3.displayTree();
-
+    dict3.displayTree();
+    dict3.rotateTesting(100, "left");
+    dict3.displayTree();
+    dict3.rotateTesting(110, "right");
+    dict3.displayTree();
     //dict2.displayTree();
     //Dictionary newDict(dict); //deep copy
 
@@ -56,7 +59,6 @@ int main()
     //dictPtr->checkRoot();
     Dictionary dict4;
     dict4 = dict2;
-    dict4.displayTree();
     //dict.checkRoot();
 
     //dict2.remove(5);
