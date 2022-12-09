@@ -265,6 +265,7 @@ BOOST_AUTO_TEST_CASE(InsertMany_RemoveNodesWithOneChild)
     isPresent(Dictionary, 37, "Victoria");
     isPresent(Dictionary, 42, "Elizabeth");
     isPresent(Dictionary, -1, "Edward");
+    
 }
 
 BOOST_AUTO_TEST_CASE(RemoveRootWithChildren)
@@ -287,10 +288,8 @@ BOOST_AUTO_TEST_CASE(InsertMany_RemoveNodesWithChildren)
 
     Dictionary.remove(0);
     isAbsent(Dictionary, 0);
-
     Dictionary.remove(37);
     isAbsent(Dictionary, 37);
-
     Dictionary.remove(22);
     isAbsent(Dictionary, 22);
 

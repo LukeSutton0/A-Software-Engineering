@@ -1,6 +1,8 @@
 // Lab1.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
 #include "dictionary.h"
 int main()
@@ -26,11 +28,24 @@ int main()
 
     Dictionary* dictPtr;
     */
-    Dictionary Dictionary;
-    Dictionary.insert(7, "John");
-    Dictionary.insert(31, "Anne");
-    Dictionary.remove(31);
-    Dictionary.lookup(31);
+    Dictionary dict;
+    dict.insert(7, "John");
+    dict.insert(4, "Anne");
+    dict.insert(1, "Anne");
+    dict.insert(5, "Anne");
+    dict.insert(12, "Anne");
+    dict.insert(11, "Anne");
+    dict.insert(9, "Anne");
+    dict.insert(10, "Anne");
+    dict.insert(15, "Anne");
+    dict.insert(14, "Anne");
+    dict.remove(7);
+
+    dict.remove(3);
+
+    dict.lookup(1);
+    dict.displayTree();
+    _CrtDumpMemoryLeaks();
     //dictToMoveTo = dict3;
     //dictPtr->displayTree();
     //dictPtr->checkRoot();
