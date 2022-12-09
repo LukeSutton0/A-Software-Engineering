@@ -5,8 +5,8 @@
 #include "dictionary.h"
 int main()
 {
+    /*
     Dictionary dict;
-    Dictionary dict2;
     dict.insert(22, "Jane");
     dict.insert(22,"Mary");
     dict.insert(0,"Harold"); //issues with nullptr
@@ -24,41 +24,16 @@ int main()
     dict.insert(1, "William");
     dict.insert(26, "Charles");
 
-    //dict.displayEntries();
-
-    dict2.insert(5, "A");
-    dict2.insert(3, "B");
-    dict2.insert(2, "C");
-    dict2.insert(4, "D");
-    //dict2.insert(7, "E");
-    //dict2.insert(6, "F");
-    //dict2.insert(8, "G");
-
-    Dictionary dict3;
-    dict3.insert(100,"A");
-    dict3.insert(9,"B");
-    dict3.insert(7,"C");
-    dict3.insert(6,"D");
-    dict3.insert(10,"E");
-    dict3.insert(8,"F");
-    dict3.insert(110, "G");
-    dict3.displayTree();
-    dict3.rotateTesting(100, "left");
-    dict3.displayTree();
-    dict3.rotateTesting(110, "right");
-    dict3.displayTree();
-    //dict2.displayTree();
-    //Dictionary newDict(dict); //deep copy
-
     Dictionary* dictPtr;
-
-
-    dictPtr = new Dictionary(std::move(dict)); //move
+    */
+    Dictionary Dictionary;
+    Dictionary.insert(7, "John");
+    Dictionary.insert(31, "Anne");
+    Dictionary.remove(31);
+    Dictionary.lookup(31);
     //dictToMoveTo = dict3;
     //dictPtr->displayTree();
     //dictPtr->checkRoot();
-    Dictionary dict4;
-    dict4 = dict2;
     //dict.checkRoot();
 
     //dict2.remove(5);

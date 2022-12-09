@@ -8,7 +8,6 @@ class Dictionary
 private:
 	struct Node;
 	Node* root = nullptr;
-	int size; //do i need this
 	void displayEntriesWorker(Node*, int traversalType);
 	void displayTreeWorker(Node* currentNode, int indent);
 	Node* lookupWorker(int nodeToFind, Node* currentNode);
@@ -23,13 +22,12 @@ private:
 
 public:
 	Dictionary();
+	~Dictionary();
 	void insert(int key, std::string data); //insert
-	//int lookup(int key); //lookup iterating
-	std::string* lookup(int nodeToFind); //lookup recursive
+	std::string* lookup(int keyOfNodeToFind); //lookup recursive
 	void displayEntries(); //display
 	void displayTree(); // display, pre post in order
 	void remove(int nodeToDelete); //remove
-	~Dictionary();
 	Dictionary(const Dictionary& dictToCopy); //copy
 	bool isLeaf(Node* n);
 	void rotateTesting(int keyOfNodeToTest,std::string rotateDirection);
