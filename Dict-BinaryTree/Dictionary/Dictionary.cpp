@@ -1,6 +1,5 @@
 #include "dictionary.h"
 #include <list>
-#include <vector>
 #include <stack>
 #include <cassert>
 
@@ -211,24 +210,16 @@ void Dictionary::removeWorker(int nodeToDelete, Node* &currentNode, Node* &paren
             else if (currentNode->nodeLeft != nullptr && parentNode->key > currentNode->key) { //has a left node
                     parentNode->nodeLeft = currentNode->nodeLeft;
             }
+
             else if (currentNode->nodeRight != nullptr && parentNode->key > currentNode->key) {//has a right node
-                    parentNode->nodeRight = currentNode->nodeRight;
+                    parentNode->nodeLeft = currentNode->nodeRight;
             }
-            else if (currentNode->nodeLeft == nullptr && parentNode->key < currentNode->key) {//has a left node
-                if (currentNode->nodeRight != nullptr) {
-                    parentNode->nodeRight = currentNode->nodeRight;
-                }
-                else {
-                    parentNode->nodeRight = nullptr;
-                }
+
+            else if (currentNode->nodeLeft != nullptr && parentNode->key < currentNode->key) {//has a left node
+                    parentNode->nodeRight = currentNode->nodeLeft;
             }
-            else if (currentNode->nodeRight == nullptr && parentNode->key < currentNode->key) { //has a right node
-                if (currentNode->nodeLeft != nullptr) {
-                    parentNode->nodeLeft = currentNode->nodeLeft;
-                }
-                else {
-                    currentNode->nodeLeft = nullptr;
-                }
+            else if (currentNode->nodeRight != nullptr && parentNode->key < currentNode->key) { //has a right node
+                    parentNode->nodeRight = currentNode->nodeRight;
             }
             else if (currentNode->nodeLeft == nullptr && currentNode->nodeRight == nullptr) {//has no child nodes - remove link
                 if (parentNode->key > currentNode->key) {
@@ -429,12 +420,32 @@ Dictionary& Dictionary::operator=(const Dictionary& sourceDictionary) { //deep c
 }
 
 
+void Dictionary::removeIf(std::function<bool(int)> f) {
+
+    std::vector<int> keys;
+
+    doFindIf(root, keys, f);
+
+    for (int i = 0; i < keys.size(); i++) {
+        remove(keys[i]);
+    }
+}
+
+void Dictionary::doFindIf(Dictionary::Node* root, std::vector<int>& keys, std::function<bool(int)> f) {
+    
+    if (root == nullptr)
+        return;
+
+    if (f(root->key)) {
+        keys.push_back(root->key);
+    }
+
+    doFindIf(root->nodeLeft, keys, f);
 
 
-
-
-
-
+    doFindIf(root->nodeRight, keys, f);
+    
+}
 
 /*void Dictionary::insert(int key, std::string data) {
     Node* newNode = new Node(key, data);

@@ -697,78 +697,75 @@ BOOST_AUTO_TEST_SUITE_END()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////////////
-//
-//BOOST_AUTO_TEST_SUITE(RemoveIf_Tests)
-//
-//BOOST_AUTO_TEST_CASE(RemoveNone)
-//{
-//    Dictionary Dictionary;
-//    insertTestData(Dictionary);
-//
-//    Dictionary.removeIf([](int k) {return false;});
-//
-//    isPresent(Dictionary, 22, "Mary");
-//    isPresent(Dictionary, 4, "Stephen");
-//    isPresent(Dictionary, 9, "Edward");
-//    isPresent(Dictionary, 1, "William");
-//    isPresent(Dictionary, 0, "Harold");
-//    isPresent(Dictionary, 24, "James");
-//    isPresent(Dictionary, 26, "Charles");
-//    isPresent(Dictionary, 19, "Henry");
-//    isPresent(Dictionary, 31, "Anne");
-//    isPresent(Dictionary, 23, "Elizabeth");
-//    isPresent(Dictionary, 37, "Victoria");
-//    isPresent(Dictionary, 42, "Elizabeth");
-//    isPresent(Dictionary, -1, "Edward");
-//}
-//
-//BOOST_AUTO_TEST_CASE(RemoveAll)
-//{
-//    Dictionary Dictionary;
-//    insertTestData(Dictionary);
-//
-//    Dictionary.removeIf([](int k) {return true;});
-//
-//    isAbsent(Dictionary, 22);
-//    isAbsent(Dictionary, 4);
-//    isAbsent(Dictionary, 9);
-//    isAbsent(Dictionary, 1);
-//    isAbsent(Dictionary, 0);
-//    isAbsent(Dictionary, 24);
-//    isAbsent(Dictionary, 26);
-//    isAbsent(Dictionary, 19);
-//    isAbsent(Dictionary, 31);
-//    isAbsent(Dictionary, 23);
-//    isAbsent(Dictionary, 37);
-//    isAbsent(Dictionary, 42);
-//    isAbsent(Dictionary, -1);
-//}
-//
-//BOOST_AUTO_TEST_CASE(RemoveOddKeys)
-//{
-//    Dictionary Dictionary;
-//    insertTestData(Dictionary);
-//
-//    Dictionary.removeIf([](int k) {return k % 2 != 0;});
-//
-//    isPresent(Dictionary, 22, "Mary");
-//    isPresent(Dictionary, 4, "Stephen");
-//    isPresent(Dictionary, 0, "Harold");
-//    isPresent(Dictionary, 24, "James");
-//    isPresent(Dictionary, 26, "Charles");
-//    isPresent(Dictionary, 42, "Elizabeth");
-//
-//    isAbsent(Dictionary, 9);
-//    isAbsent(Dictionary, 1);
-//    isAbsent(Dictionary, 19);
-//    isAbsent(Dictionary, 31);
-//    isAbsent(Dictionary, 23);
-//    isAbsent(Dictionary, 37);
-//    isAbsent(Dictionary, -1);
-//}
-//
-//BOOST_AUTO_TEST_SUITE_END()
-//
+BOOST_AUTO_TEST_SUITE(RemoveIf_Tests)
+
+BOOST_AUTO_TEST_CASE(RemoveNone)
+{
+    Dictionary dict;
+    insertTestData(dict);
+
+    dict.removeIf([](int k) {return false; });
+
+    isPresent(dict, 22, "Mary");
+    isPresent(dict, 4, "Stephen");
+    isPresent(dict, 9, "Edward");
+    isPresent(dict, 1, "William");
+    isPresent(dict, 0, "Harold");
+    isPresent(dict, 24, "James");
+    isPresent(dict, 26, "Charles");
+    isPresent(dict, 19, "Henry");
+    isPresent(dict, 31, "Anne");
+    isPresent(dict, 23, "Elizabeth");
+    isPresent(dict, 37, "Victoria");
+    isPresent(dict, 42, "Elizabeth");
+    isPresent(dict, -1, "Edward");
+}
+
+BOOST_AUTO_TEST_CASE(RemoveAll)
+{
+    Dictionary dict;
+    insertTestData(dict);
+
+    dict.removeIf([](int k) {return true; });
+
+    isAbsent(dict, 22);
+    isAbsent(dict, 4);
+    isAbsent(dict, 9);
+    isAbsent(dict, 1);
+    isAbsent(dict, 0);
+    isAbsent(dict, 24);
+    isAbsent(dict, 26);
+    isAbsent(dict, 19);
+    isAbsent(dict, 31);
+    isAbsent(dict, 23);
+    isAbsent(dict, 37);
+    isAbsent(dict, 42);
+    isAbsent(dict, -1);
+}
+
+BOOST_AUTO_TEST_CASE(RemoveOddKeys)
+{
+    Dictionary dict;
+    insertTestData(dict);
+
+    dict.removeIf([](int k) {return k % 2 != 0; });
+
+    isPresent(dict, 22, "Mary");
+    isPresent(dict, 4, "Stephen");
+    isPresent(dict, 0, "Harold");
+    isPresent(dict, 24, "James");
+    isPresent(dict, 26, "Charles");
+    isPresent(dict, 42, "Elizabeth");
+
+    isAbsent(dict, 9);
+    isAbsent(dict, 1);
+    isAbsent(dict, 19);
+    isAbsent(dict, 31);
+    isAbsent(dict, 23);
+    isAbsent(dict, 37);
+    isAbsent(dict, -1);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 //////////////////////////////////////////////////////////////////////////////////
