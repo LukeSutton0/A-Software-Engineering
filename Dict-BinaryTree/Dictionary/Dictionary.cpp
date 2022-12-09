@@ -1,6 +1,5 @@
 #include "dictionary.h"
 #include <list>
-#include <vector>
 #include <stack>
 #include <cassert>
 
@@ -9,7 +8,6 @@
 Dictionary::Dictionary()
 {
     root = nullptr;
-    size = 0;
 }
 
 struct Dictionary::Node
@@ -43,7 +41,7 @@ Dictionary::Node::~Node() { //node destructor
 */
 
 void Dictionary::insert(int key, std::string data) {
-    if (root == NULL) {
+    if (root == nullptr) {
         root = new Node(key, data);
         return;
     }
@@ -73,37 +71,6 @@ void Dictionary::insertWorker(int key, std::string data, Node* &currentNode) {
         }
     }
 }
-
-/*void Dictionary::insert(int key, std::string data) {
-    Node* newNode = new Node(key, data);
-    if (root == NULL) {
-        root = newNode;
-        return;
-    }
-    bool duplicateKey = false;
-    Node* temp = root; //pointing to root
-    while (temp->key != NULL && duplicateKey == false) {
-        if (temp->nodeLeft == NULL && newNode->key < temp->key) {
-            (*temp).nodeLeft = newNode; // (*variable).thing == variable->thing
-            return;
-        }
-        else if (temp->nodeRight == NULL && newNode->key > temp->key) {
-            temp->nodeRight = newNode;
-            return;
-        }
-        else if (temp->key != NULL && newNode->key < temp->key) { //left
-            temp = temp->nodeLeft;
-        }
-        else if (temp->key != NULL && newNode->key > temp->key) { //right
-            temp = temp->nodeRight;
-        }
-        else if (temp->key != NULL && newNode->key == temp->key) {
-            duplicateKey = true;
-            temp->data = newNode->data;
-        }
-    }
-}
-*/
 
 std::string* Dictionary::lookup(int nodeToFind) {
     Node* currentNode = root;
@@ -151,48 +118,6 @@ Dictionary::Node* Dictionary::lookupWorker(int applyRotationKey, Node*& currentN
         lookupWorker(applyRotationKey, currentNode, parentNode);
     }
 }
-
-
-/*
-std::string*  Dictionary::lookup(int nodeToFind) {
-    Node* temp = root;
-    if (root == NULL) {
-        std::cout << "Tree is empty";
-        return &temp->data;
-    }
-    bool endOfTree = false;
-    while (temp != NULL && endOfTree == false) {
-        if (temp->key == nodeToFind) {
-            std::cout << "Node found = " << temp->key;
-            endOfTree = true;
-        }
-        else if (temp->key != NULL && (nodeToFind) < temp->key) { //left
-            std::cout << "Current node = " << temp->key << "\n";
-            std::cout << "Traverse left " << "\n";
-            if (temp->nodeLeft != NULL) {
-                temp = temp->nodeLeft;
-                std::cout << "Next node= " << temp->key << "\n";
-            }
-            else {
-                endOfTree = true;
-                std::cout << "Next " << temp->key << "\n";
-            }
-        }
-        else if (temp->key != NULL && (nodeToFind) > temp->key) {
-            std::cout << "Current node = " << temp->key << "\n";
-            std::cout << "Traverse right " << "\n";
-            if (temp->nodeRight != NULL) {
-                temp = temp->nodeRight;
-                std::cout << "Next node= " << temp->key << "\n";
-            }
-            else {
-                endOfTree = true;
-                std::cout << "Next " << temp->key << "\n";
-            }
-        }
-    }
-    return &temp->data;
-} //iterative binary lookup */
 
 void Dictionary::displayEntries() {
     Node* temp = root;
@@ -270,51 +195,44 @@ void Dictionary::remove(int nodeToDelete) {
 
 void Dictionary::removeWorker(int nodeToDelete, Node* &currentNode, Node* &parentNode) {
     if (nodeToDelete == currentNode->key) {
-        if (currentNode->nodeLeft != NULL && currentNode->nodeRight != NULL) {
-            //complicated removal has 2 leaves
-            removeWorkerNoLeaf(currentNode, parentNode);
+        if (currentNode->nodeLeft != nullptr && currentNode->nodeRight != nullptr) {
+            removeWorkerNoLeaf(currentNode, parentNode); //complicated removal has 2 leaves
         }
-
-
-        else if (nodeToDelete == root->key) {
-            if (root->nodeLeft != nullptr) {
-                root = root->nodeLeft;
+        else {
+            if (nodeToDelete == root->key) {
+                if (root->nodeLeft != nullptr) {
+                    root = root->nodeLeft;
+                }
+                else {
+                    root = root->nodeRight;
+                }
             }
-            else {
-                root = root->nodeRight;
+            else if (currentNode->nodeLeft != nullptr && parentNode->key > currentNode->key) { //has a left node
+                    parentNode->nodeLeft = currentNode->nodeLeft;
             }
-        }
 
-
-        else if (currentNode->nodeLeft != NULL && parentNode->key > currentNode->key) { //has a left node
-            delete currentNode;
-            parentNode->nodeLeft = currentNode->nodeLeft;
-        }
-        else if (currentNode->nodeRight != NULL && parentNode->key > currentNode->key) {//has a right node
-            delete currentNode;
-            parentNode->nodeLeft = currentNode->nodeRight;
-        }
-        else if (currentNode->nodeLeft == NULL && parentNode->key < currentNode->key) {//has a left node
-            delete currentNode;
-            parentNode->nodeRight = currentNode->nodeRight;
-        }
-        else if (currentNode->nodeRight == NULL && parentNode->key < currentNode->key) { //has a right node
-            delete currentNode;
-            parentNode->nodeRight = currentNode->nodeRight;
-        }
-
-        else if (currentNode->nodeLeft == NULL && currentNode->nodeRight == NULL) {//has no child nodes - remove link
-            if (parentNode->key > currentNode->key) {
-                delete currentNode;
-                parentNode->nodeLeft = nullptr;
+            else if (currentNode->nodeRight != nullptr && parentNode->key > currentNode->key) {//has a right node
+                    parentNode->nodeLeft = currentNode->nodeRight;
             }
-            else{
-                delete currentNode;
-                parentNode->nodeRight = nullptr;
+
+            else if (currentNode->nodeLeft != nullptr && parentNode->key < currentNode->key) {//has a left node
+                    parentNode->nodeRight = currentNode->nodeLeft;
             }
-        }
-        else if (currentNode != nullptr) {
-            delete currentNode; //deletes selected node
+            else if (currentNode->nodeRight != nullptr && parentNode->key < currentNode->key) { //has a right node
+                    parentNode->nodeRight = currentNode->nodeRight;
+            }
+            else if (currentNode->nodeLeft == nullptr && currentNode->nodeRight == nullptr) {//has no child nodes - remove link
+                if (parentNode->key > currentNode->key) {
+                    parentNode->nodeLeft = nullptr;
+                }
+                else {
+                    parentNode->nodeRight = nullptr;
+                }
+            }
+            if (currentNode != nullptr) {
+                delete currentNode; //deletes selected node
+                currentNode = nullptr;
+            }
         }
     }
     else{     //if not found right node to delete yet recursive
@@ -325,39 +243,49 @@ void Dictionary::removeWorker(int nodeToDelete, Node* &currentNode, Node* &paren
         else {
             currentNode = currentNode->nodeRight;
         }
-        removeWorker(nodeToDelete, currentNode, parentNode);
+        if (currentNode != nullptr) {
+            removeWorker(nodeToDelete, currentNode, parentNode);
+        }
     }
 }
 
 void Dictionary::removeWorkerNoLeaf(Node* &currentNode, Node* &parentNode) {
     Node* nodeToDelete = currentNode; //the node getting deleted
-    Node* previousNode = currentNode; //its parent if not root (if root is same) change this?
-    currentNode = currentNode->nodeRight; //current Node gets incremented by 1
-    while (currentNode->nodeLeft != NULL) { //find smallest key in right subtree
+    Node* previousNode = currentNode; //its parent if not root
+    currentNode = currentNode->nodeRight;
+    while (currentNode->nodeLeft != nullptr) { //find smallest key in right subtree
         previousNode = currentNode;
         currentNode = currentNode->nodeLeft;
     }
     if (nodeToDelete == root) { //if root
-        previousNode->nodeLeft = currentNode->nodeRight; 
-        currentNode->nodeLeft = root->nodeLeft;
-        currentNode->nodeRight = root->nodeRight;
-        root = currentNode; //change root pointer to start at current Node
-    }
-    else { //if not root node
-        if (currentNode->nodeRight != NULL) { //
+        if (previousNode != nodeToDelete) {
             previousNode->nodeLeft = currentNode->nodeRight;
         }
-        if (parentNode->key > nodeToDelete->key) {  //check this and one below right way round
+        Node* temp = root;
+        root = currentNode; //change root pointer to start at current Node
+        if (currentNode != temp->nodeLeft) {
+            root->nodeLeft = temp->nodeLeft;
+        }
+        if (currentNode != temp->nodeRight) {
+            root->nodeRight = temp->nodeRight;
+        }
+    }
+    else { //if not root node
+        if (previousNode != nodeToDelete) {
+            previousNode->nodeLeft = currentNode->nodeRight;
+        }
+        if (parentNode->key > nodeToDelete->key) {  
             parentNode->nodeLeft = currentNode;
         }
         else{
             parentNode->nodeRight = currentNode;
         }
         currentNode->nodeLeft = nodeToDelete->nodeLeft;
-
         if (nodeToDelete->nodeRight != currentNode) {
             currentNode->nodeRight = nodeToDelete->nodeRight;
         }
+        delete nodeToDelete;
+        nodeToDelete = nullptr;
     }
 }
 
@@ -409,7 +337,7 @@ void Dictionary::rotateTesting(int applyRotationKey,std::string direction) {
     if (root == nullptr) {
         return;
     }
-    Node* parentNode = NULL;
+    Node* parentNode = nullptr;
     currentNode,parentNode = lookupWorker(applyRotationKey, currentNode,parentNode); //find node
     assert(!isLeaf(currentNode));
     if (direction == "right") { //right
@@ -490,3 +418,103 @@ Dictionary& Dictionary::operator=(const Dictionary& sourceDictionary) { //deep c
     deepCopyWorker(this->root,sourceDictionary.root,sourceDictionary);
     return *this;
 }
+
+
+void Dictionary::removeIf(std::function<bool(int)> f) {
+
+    std::vector<int> keys;
+
+    doFindIf(root, keys, f);
+
+    for (int i = 0; i < keys.size(); i++) {
+        remove(keys[i]);
+    }
+}
+
+void Dictionary::doFindIf(Dictionary::Node* root, std::vector<int>& keys, std::function<bool(int)> f) {
+    
+    if (root == nullptr)
+        return;
+
+    if (f(root->key)) {
+        keys.push_back(root->key);
+    }
+
+    doFindIf(root->nodeLeft, keys, f);
+
+
+    doFindIf(root->nodeRight, keys, f);
+    
+}
+
+/*void Dictionary::insert(int key, std::string data) {
+    Node* newNode = new Node(key, data);
+    if (root == nullptr) {
+        root = newNode;
+        return;
+    }
+    bool duplicateKey = false;
+    Node* temp = root; //pointing to root
+    while (temp->key != nullptr && duplicateKey == false) {
+        if (temp->nodeLeft == nullptr && newNode->key < temp->key) {
+            (*temp).nodeLeft = newNode; // (*variable).thing == variable->thing
+            return;
+        }
+        else if (temp->nodeRight == nullptr && newNode->key > temp->key) {
+            temp->nodeRight = newNode;
+            return;
+        }
+        else if (temp->key != nullptr && newNode->key < temp->key) { //left
+            temp = temp->nodeLeft;
+        }
+        else if (temp->key != nullptr && newNode->key > temp->key) { //right
+            temp = temp->nodeRight;
+        }
+        else if (temp->key != nullptr && newNode->key == temp->key) {
+            duplicateKey = true;
+            temp->data = newNode->data;
+        }
+    }
+}
+*/
+
+/*
+std::string*  Dictionary::lookup(int nodeToFind) {
+    Node* temp = root;
+    if (root == nullptr) {
+        std::cout << "Tree is empty";
+        return &temp->data;
+    }
+    bool endOfTree = false;
+    while (temp != nullptr && endOfTree == false) {
+        if (temp->key == nodeToFind) {
+            std::cout << "Node found = " << temp->key;
+            endOfTree = true;
+        }
+        else if (temp->key != nullptr && (nodeToFind) < temp->key) { //left
+            std::cout << "Current node = " << temp->key << "\n";
+            std::cout << "Traverse left " << "\n";
+            if (temp->nodeLeft != nullptr) {
+                temp = temp->nodeLeft;
+                std::cout << "Next node= " << temp->key << "\n";
+            }
+            else {
+                endOfTree = true;
+                std::cout << "Next " << temp->key << "\n";
+            }
+        }
+        else if (temp->key != nullptr && (nodeToFind) > temp->key) {
+            std::cout << "Current node = " << temp->key << "\n";
+            std::cout << "Traverse right " << "\n";
+            if (temp->nodeRight != nullptr) {
+                temp = temp->nodeRight;
+                std::cout << "Next node= " << temp->key << "\n";
+            }
+            else {
+                endOfTree = true;
+                std::cout << "Next " << temp->key << "\n";
+            }
+        }
+    }
+    return &temp->data;
+} //iterative binary lookup */
